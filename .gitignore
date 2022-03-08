@@ -31,3 +31,20 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+#IntelliJ files
+**/*.iml
+**/.idea
+**/.gradle
+
+#Eclipse files
+**/.project
+**/.classpath
+**/.settings/
+/bin/
+blog/bin/
+**/.tern-project
+
+#Gradle temporary files
+target/
