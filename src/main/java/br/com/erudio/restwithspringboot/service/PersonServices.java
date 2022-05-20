@@ -43,7 +43,7 @@ public class PersonServices {
 		Person personEntity = personRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID " + id));
 		personRepository.delete(personEntity);
-		
+
 	}
 
 }
