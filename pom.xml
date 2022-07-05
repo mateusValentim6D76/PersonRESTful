@@ -50,6 +50,20 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!-- DOZER MAPPER -->
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
+			<version>6.5.2</version>
+		</dependency>
+
+		<!-- Testes -->
+
+		<dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </dependency>  
+
 	</dependencies>
 
 	<build>

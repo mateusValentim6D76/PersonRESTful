@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
-import br.com.erudio.restwithspringboot.model.Person;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
 
 @Service
