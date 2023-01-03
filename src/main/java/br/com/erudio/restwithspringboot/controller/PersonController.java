@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.erudio.restwithspringboot.converter.DozerConverter;
 import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
-import br.com.erudio.restwithspringboot.vo.PersonVO;
 
 @RestController
 @RequestMapping("/person")
@@ -25,27 +24,30 @@ public class PersonController {
 	@Autowired
 	private PersonRepository repository;
 
+	@GetMapping
+	public List<Person> findAll() {
+		return DozerConverter.parseListObject(repository.findAll(), Person.class);
+	}
+	
+	@GetMapping("/{id}")
+	public Person findById(@PathVariable("id") Long id) {
+		var entity = repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this id " + id));
+		return DozerConverter.parseObject(entity, Person.class);
+	}
+
 	@PostMapping
-	public PersonVO create(@RequestBody PersonVO person) {
+	public Person create(@RequestBody Person person) {
 		var entity = DozerConverter.parseObject(person, Person.class);
-		var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
+		var vo = DozerConverter.parseObject(repository.save(entity), Person.class);
 		return vo;
 	}
 
-	@GetMapping
-	public List<PersonVO> findAll() {
-		return DozerConverter.parseListObject(repository.findAll(), PersonVO.class);
-	}
-
-	@GetMapping("/{id}")
-	public PersonVO findById(@PathVariable("id") Long id) {
-		var entity = repository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("No records found for this id " + id));
-		return DozerConverter.parseObject(entity, PersonVO.class);
-	}
+	
+	
 
 	@PutMapping
-	public PersonVO update(PersonVO person) {
+	public Person update(Person person) {
 		var entity = repository.findById(person.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 		entity.setFirstName(person.getFirstName());
@@ -53,7 +55,7 @@ public class PersonController {
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
 		
-		var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
+		var vo = DozerConverter.parseObject(repository.save(entity), Person.class);
 		return vo;
 	}
 	

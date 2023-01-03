@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.erudio.restwithspringboot.converter.DozerConverter;
 import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
+import br.com.erudio.restwithspringboot.vo.PersonVO;
 
 @Service
 public class PersonServices {
@@ -15,34 +17,40 @@ public class PersonServices {
 	@Autowired
 	private PersonRepository personRepository;
 
-	public Person create(Person person) {
-		return personRepository.save(person);
+	public PersonVO create(PersonVO person) {
+		var entity = DozerConverter.parseObject(person, Person.class); 
+		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class); 
+		return vo;
+		
+	}
+	
+	public List<PersonVO> findAll() {
+		return DozerConverter.parseListObject(personRepository.findAll(), PersonVO.class);
 	}
 
-	public Person findById(Long id) {
-		return personRepository.findById(id)
+	public PersonVO findById(Long id) {
+		var entity =  personRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID " + id));
+		return DozerConverter.parseObject(entity, PersonVO.class);
 	}
 
-	public List<Person> findAll() {
-		return personRepository.findAll();
-	}
-
-	public Person update(Person p) {
-
-		Person personEntity = personRepository.findById(p.getId())
+	public PersonVO update(PersonVO person) {
+		var entity = personRepository.findById(person.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-		personEntity.setFirstName(p.getFirstName());
-		personEntity.setLastName(p.getLastName());
-		personEntity.setAddress(p.getAddress());
-		personEntity.setGender(p.getGender());
-		return personRepository.save(personEntity);
+		
+		entity.setFirstName(person.getFirstName());
+		entity.setLastName(person.getLastName());
+		entity.setAddress(person.getAddress());
+		entity.setGender(person.getGender());
+		
+		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class);
+		return vo;
 	}
 
 	public void delete(Long id) {
-		Person personEntity = personRepository.findById(id)
+		Person entity = personRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID " + id));
-		personRepository.delete(personEntity);
+		personRepository.delete(entity);
 
 	}
 
