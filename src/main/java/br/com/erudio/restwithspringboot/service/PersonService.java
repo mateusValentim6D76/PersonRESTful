@@ -10,9 +10,10 @@ import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
 import br.com.erudio.restwithspringboot.vo.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v2.PersonVOV2;
 
 @Service
-public class PersonServices {
+public class PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
@@ -20,6 +21,13 @@ public class PersonServices {
 	public PersonVO create(PersonVO person) {
 		var entity = DozerConverter.parseObject(person, Person.class); 
 		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class); 
+		return vo;
+		
+	}
+	
+	public PersonVOV2 createV2(PersonVOV2 person) {
+		var entity = DozerConverter.parseObject(person, Person.class); 
+		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVOV2.class); 
 		return vo;
 		
 	}

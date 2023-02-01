@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,54 +17,47 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.erudio.restwithspringboot.converter.DozerConverter;
 import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
+import br.com.erudio.restwithspringboot.service.PersonService;
+import br.com.erudio.restwithspringboot.vo.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v2.PersonVOV2;
 
 @RestController
 @RequestMapping("/person")
 public class PersonController {
 
 	@Autowired
-	private PersonRepository repository;
+	private PersonService service;
 
 	@GetMapping
-	public List<Person> findAll() {
-		return DozerConverter.parseListObject(repository.findAll(), Person.class);
+	public List<PersonVO> findAll() {
+		return service.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable("id") Long id) {
-		var entity = repository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("No records found for this id " + id));
-		return DozerConverter.parseObject(entity, Person.class);
+	public PersonVO findById(@PathVariable("id") Long id) {
+		return service.findById(id);
 	}
 
 	@PostMapping
-	public Person create(@RequestBody Person person) {
-		var entity = DozerConverter.parseObject(person, Person.class);
-		var vo = DozerConverter.parseObject(repository.save(entity), Person.class);
-		return vo;
+	public PersonVO create(@RequestBody PersonVO person) {
+		return service.create(person);
+	}
+	
+	@PostMapping("v2")
+	public PersonVOV2 createV2(@RequestBody PersonVOV2 person) {
+		return service.createV2(person);
 	}
 
 	
-	
-
 	@PutMapping
-	public Person update(Person person) {
-		var entity = repository.findById(person.getId())
-				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-		entity.setFirstName(person.getFirstName());
-		entity.setLastName(person.getLastName());
-		entity.setAddress(person.getAddress());
-		entity.setGender(person.getGender());
-		
-		var vo = DozerConverter.parseObject(repository.save(entity), Person.class);
-		return vo;
+	public PersonVO update(PersonVO person) {
+		return service.update(person);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable("id") Long id) {
-		Person entity = repository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("No records found for this id " + id));
-		repository.delete(entity);
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+		service.delete(id);
+		return ResponseEntity.ok().build();
 	}
 
 }
