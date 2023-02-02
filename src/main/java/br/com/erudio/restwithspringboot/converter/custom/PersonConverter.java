@@ -21,7 +21,7 @@ public class PersonConverter {
 		return vo;
 	}
 	
-	public Person convertVoToEntity(Person person) {
+	public Person convertVoToEntity(PersonVOV2 person) {
 		Person entity = new Person();
 		entity.setId(person.getId());
 		entity.setAddress(person.getAddress());
