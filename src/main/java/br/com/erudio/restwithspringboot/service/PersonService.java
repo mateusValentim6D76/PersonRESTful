@@ -10,7 +10,7 @@ import br.com.erudio.restwithspringboot.converter.custom.PersonConverter;
 import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
-import br.com.erudio.restwithspringboot.vo.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
 import br.com.erudio.restwithspringboot.vo.v2.PersonVOV2;
 
 @Service

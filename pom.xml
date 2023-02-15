@@ -50,6 +50,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!-- Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
 		<!-- DOZER MAPPER -->
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>
@@ -60,9 +66,9 @@
 		<!-- Testes -->
 
 		<dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </dependency>  
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
 
 	</dependencies>
 

@@ -3,7 +3,6 @@ package br.com.erudio.restwithspringboot.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.erudio.restwithspringboot.converter.DozerConverter;
-import br.com.erudio.restwithspringboot.data.model.Person;
-import br.com.erudio.restwithspringboot.repository.PersonRepository;
 import br.com.erudio.restwithspringboot.service.PersonService;
-import br.com.erudio.restwithspringboot.vo.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
 import br.com.erudio.restwithspringboot.vo.v2.PersonVOV2;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("api/person/v1")
 public class PersonController {
 
 	@Autowired
