@@ -21,6 +21,7 @@ import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.mocks.MockPerson;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
 import br.com.erudio.restwithspringboot.service.PersonService;
+import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -49,12 +50,34 @@ class PersonServiceTest {
 		assertNotNull(result);
 		assertNotNull(result.getKey());
 		assertNotNull(result.getLinks());
-		System.out.println(result.toString());
 		assertTrue(result.toString().contains("[</api/person/v1/1>;rel=\"self\"]"));
 		assertEquals("Addres Test1", result.getAddress());
 		assertEquals("First Name Test1", result.getFirstName());
 		assertEquals("Last Name Test1", result.getLastName());
 		assertEquals("Female", result.getGender());
+	}
+	
+	@Test
+	void testCreate() {
+		Person entity = input.mockEntity(1);
+		
+		Person persisted = entity;	
+		persisted.setId(1L);
+		
+		PersonVO vo = input.mockVO(1);
+		
+		when(repository.save(persisted)).thenReturn(persisted);
+		var result = service.create(vo);
+		
+		assertNotNull(result);
+		assertNotNull(result.getKey());
+		assertNotNull(result.getLinks());
+		assertTrue(result.toString().contains("[</api/person/v1/1>;rel=\"self\"]"));
+		assertEquals("Addres Test1", result.getAddress());
+		assertEquals("First Name Test1", result.getFirstName());
+		assertEquals("Last Name Test1", result.getLastName());
+		assertEquals("Female", result.getGender());
+		
 	}
 
 }
