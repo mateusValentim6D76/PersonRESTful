@@ -51,6 +51,13 @@
 			<artifactId>spring-hateoas</artifactId>
 		</dependency>
 
+		<!-- spring-devtools -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+
+
 		<!-- MySQL Driver -->
 		<dependency>
 			<groupId>mysql</groupId>
