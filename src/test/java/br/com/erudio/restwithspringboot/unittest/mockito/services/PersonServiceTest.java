@@ -92,18 +92,28 @@ class PersonServiceTest {
 
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
 		when(repository.save(entity)).thenReturn(persisted);
-		
+
 		var result = service.update(vo);
 
 		assertNotNull(result);
 		assertNotNull(result.getKey());
 		assertNotNull(result.getLinks());
-		
+
 		assertTrue(result.toString().contains("[</api/person/v1/1>;rel=\"self\"]"));
 		assertEquals("Addres Test1", result.getAddress());
 		assertEquals("First Name Test1", result.getFirstName());
 		assertEquals("Last Name Test1", result.getLastName());
 		assertEquals("Female", result.getGender());
+	}
+
+	@Test
+	void testDelete() {
+		Person entity = input.mockEntity(1);
+		entity.setId(1L);
+
+		when(repository.findById(1L)).thenReturn(Optional.of(entity));
+
+		service.delete(1L);
 	}
 
 }
