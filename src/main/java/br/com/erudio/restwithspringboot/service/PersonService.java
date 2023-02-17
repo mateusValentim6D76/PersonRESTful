@@ -67,7 +67,7 @@ public class PersonService {
 		entity.setGender(person.getGender());
 
 		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class);
-		vo.add(linkTo(methodOn(PersonController.class, vo.getKey())).withSelfRel());
+		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 		return vo;
 	}
 
