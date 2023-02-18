@@ -12,6 +12,7 @@ import br.com.erudio.restwithspringboot.controller.PersonController;
 import br.com.erudio.restwithspringboot.converter.DozerConverter;
 import br.com.erudio.restwithspringboot.converter.custom.PersonConverter;
 import br.com.erudio.restwithspringboot.data.model.Person;
+import br.com.erudio.restwithspringboot.exception.RequiredObjectIsNullException;
 import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
 import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
@@ -27,6 +28,7 @@ public class PersonService {
 	private PersonConverter converter;
 
 	public PersonVO create(PersonVO person) {
+		if(person == null) throw new RequiredObjectIsNullException();
 		var entity = DozerConverter.parseObject(person, Person.class);
 		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
@@ -58,6 +60,8 @@ public class PersonService {
 	}
 
 	public PersonVO update(PersonVO person) {
+		if(person == null) throw new RequiredObjectIsNullException();
+		
 		var entity = personRepository.findById(person.getKey())
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 	
