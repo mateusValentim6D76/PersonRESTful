@@ -18,7 +18,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<dozer.version>6.4.0</dozer.version>
-		<springdoc.version>2.0.0-M1</springdoc.version>
+		<springdoc.version>1.6.4</springdoc.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEnconding>UTF-8</project.reporting.outputEnconding>
 	</properties>
@@ -62,7 +62,7 @@
 		<!-- springdoc - openapi -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>${springdoc.version}</version>
 		</dependency>
 
@@ -83,7 +83,7 @@
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>
 			<artifactId>dozer-core</artifactId>
-			<version>6.5.2</version>
+			<version>${dozer.version}</version>
 		</dependency>
 
 		<!-- jackson.dataformat/jackson-dataformat-xml -->
