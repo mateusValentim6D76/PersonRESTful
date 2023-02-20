@@ -45,7 +45,7 @@ public class PersonController {
 	}
 
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
-	@CrossOrigin(origins = "http://localhost:8080")
+	//@CrossOrigin(origins = "http://localhost:8080")
 	@Operation(summary = "Finds a People", description = "Finds a People", tags = { "People" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -59,7 +59,7 @@ public class PersonController {
 
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
-	@CrossOrigin(origins = {"http://localhost:8080", "https://mvalentimlearning.com.br"})
+	//@CrossOrigin(origins = {"http://localhost:8080", "https://mvalentimlearning.com.br"})
 	@Operation(summary = "Adds a new Person", description = "Adds a new Person by passing in a JSON, XML or YML representation of the person !", tags = {
 			"People" }, responses = {
 					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
