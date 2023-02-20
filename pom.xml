@@ -19,6 +19,7 @@
 		<java.version>11</java.version>
 		<dozer.version>6.4.0</dozer.version>
 		<springdoc.version>1.6.4</springdoc.version>
+		<java-jwt.version>3.18.3</java-jwt.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEnconding>UTF-8</project.reporting.outputEnconding>
 	</properties>
@@ -45,6 +46,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- spring-security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<!-- spring-hateoas -->
