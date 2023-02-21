@@ -1,4 +1,4 @@
-package br.com.erudio.restwithspringboot;
+package br.com.erudio.restwithspringboot.security.jwt;
 
 import java.util.Base64;
 import java.util.Date;
@@ -30,7 +30,7 @@ public class JwtTokenProvider {
 	@Value("${security.jwt.token.secret-key}")
 	private String secretKey;
 
-	@Value("${security.jwt.token.expire-lenght:3600000}")
+	@Value("${security.jwt.token.expire-length:3600000}")
 	private long validityInMilliseconds;
 
 	@Autowired
