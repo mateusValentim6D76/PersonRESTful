@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.erudio.restwithspringboot.exception.ExceptionResponse;
+import br.com.erudio.restwithspringboot.exception.InvalidJwtAuthenticationException;
 import br.com.erudio.restwithspringboot.exception.RequiredObjectIsNullException;
 import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
 
@@ -19,35 +20,39 @@ import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
-	public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request){
-		ExceptionResponse exceptionResponse = 
-				new ExceptionResponse(new Date(),
-						ex.getMessage(), 
-						request.getDescription(false));
-		
+	public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+				request.getDescription(false));
+
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-		
+
 	}
-	
+
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public final ResponseEntity<ExceptionResponse> handleNotFoundException(Exception ex, WebRequest request){
-		ExceptionResponse exceptionResponse = 
-				new ExceptionResponse(new Date(),
-						ex.getMessage(), 
-						request.getDescription(false));
-		
+	public final ResponseEntity<ExceptionResponse> handleNotFoundException(Exception ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+				request.getDescription(false));
+
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
-		
+
 	}
-	
+
 	@ExceptionHandler(RequiredObjectIsNullException.class)
-	public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception ex, WebRequest request){
-		ExceptionResponse exceptionResponse = 
-				new ExceptionResponse(new Date(),
-						ex.getMessage(), 
-						request.getDescription(false));
-		
+	public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+				request.getDescription(false));
+
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-		
+
+	}
+
+	@ExceptionHandler(InvalidJwtAuthenticationException.class)
+	public final ResponseEntity<ExceptionResponse> handleInvalidJwtAuthenticationException(Exception ex,
+			WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+				request.getDescription(false));
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+
 	}
 }
