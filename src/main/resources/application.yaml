@@ -5,10 +5,11 @@ security:
     token:
       secret-key: 53cr37
       expire-length: 3600000
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_rest_with_spring_boot_udemy?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/spring_restful?useTimezone=true&serverTimezone=UTC
     username: root
     password: root
     
@@ -19,6 +20,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: false
+  flyway:
+    url: jdbc:mysql://localhost:3306/
+    schemas: spring_restful
+    user: root
+    password: root
 springdoc:
   pathsToMatch:
     - /auth/**
