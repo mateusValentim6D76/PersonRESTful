@@ -1,3 +1,5 @@
+server:
+  port: 8090 
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,https://erudio.com.br
 security:
@@ -5,14 +7,12 @@ security:
     token:
       secret-key: 53cr37
       expire-length: 3600000
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/spring_restful?useTimezone=true&serverTimezone=UTC
     username: root
-    password: root
-    
+    password: root   
   jpa:
     hibernate:
       ddl-auto: none

@@ -1,11 +1,11 @@
 package br.com.erudio.restwithspringboot.service;
 
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.erudio.restwithspringboot.controller.PersonController;
@@ -28,7 +28,8 @@ public class PersonService {
 	private PersonConverter converter;
 
 	public PersonVO create(PersonVO person) {
-		if(person == null) throw new RequiredObjectIsNullException();
+		if (person == null)
+			throw new RequiredObjectIsNullException();
 		var entity = DozerConverter.parseObject(person, Person.class);
 		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
@@ -40,15 +41,18 @@ public class PersonService {
 		var entity = converter.convertVoToEntity(person);
 		var vo = converter.convertEntityToVo(personRepository.save(entity));
 		return vo;
-
 	}
 
-	public List<PersonVO> findAll() {
-		var persons =  DozerConverter.parseListObject(personRepository.findAll(), PersonVO.class);
-			persons
-				.stream()
-				.forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
-			return persons;
+	public Page<PersonVO> findAll(Pageable pageable) {
+		
+		var personPage = personRepository.findAll(pageable);
+		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVO.class));
+		
+		personVOPage.map(personEntity -> 
+			personEntity.add(linkTo(methodOn(PersonController.class)
+					.findById(personEntity.getKey())).withSelfRel()));
+		
+			return personVOPage;
 	}
 
 	public PersonVO findById(Long id) {
@@ -60,11 +64,12 @@ public class PersonService {
 	}
 
 	public PersonVO update(PersonVO person) {
-		if(person == null) throw new RequiredObjectIsNullException();
-		
+		if (person == null)
+			throw new RequiredObjectIsNullException();
+
 		var entity = personRepository.findById(person.getKey())
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-	
+
 		entity.setFirstName(person.getFirstName());
 		entity.setLastName(person.getLastName());
 		entity.setAddress(person.getAddress());

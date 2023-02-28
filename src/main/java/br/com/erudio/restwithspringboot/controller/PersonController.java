@@ -1,8 +1,9 @@
 package br.com.erudio.restwithspringboot.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.erudio.restwithspringboot.service.PersonService;
@@ -38,13 +40,15 @@ public class PersonController {
 			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
 			@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content), })
-	public List<PersonVO> findAll() {
-		return service.findAll();
+	public ResponseEntity<Page<PersonVO>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "limit", defaultValue = "12") Integer limit) {
+		Pageable pageable = PageRequest.of(page, limit);
+		return ResponseEntity.ok(service.findAll(pageable));
 
 	}
 
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
-	//@CrossOrigin(origins = "http://localhost:8080")
+	// @CrossOrigin(origins = "http://localhost:8080")
 	@Operation(summary = "Finds a People", description = "Finds a People", tags = { "People" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -58,7 +62,8 @@ public class PersonController {
 
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
-	//@CrossOrigin(origins = {"http://localhost:8080", "https://mvalentimlearning.com.br"})
+	// @CrossOrigin(origins = {"http://localhost:8080",
+	// "https://mvalentimlearning.com.br"})
 	@Operation(summary = "Adds a new Person", description = "Adds a new Person by passing in a JSON, XML or YML representation of the person !", tags = {
 			"People" }, responses = {
 					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
