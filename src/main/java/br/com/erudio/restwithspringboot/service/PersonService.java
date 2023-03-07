@@ -26,7 +26,7 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
-	
+
 	@Autowired
 	private PagedResourcesAssembler<PersonVO> assembler;
 
@@ -50,18 +50,33 @@ public class PersonService {
 	}
 
 	public PagedModel<EntityModel<PersonVO>> findAll(Pageable pageable) {
-		
+
 		var personPage = personRepository.findAll(pageable);
 		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVO.class));
-		
-		personVOPage.map(personEntity -> 
-			personEntity.add(linkTo(methodOn(PersonController.class)
-					.findById(personEntity.getKey())).withSelfRel()));
-		
-		Link link = linkTo(methodOn(PersonController.class)
-				.findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
-		
-			return assembler.toModel(personVOPage, link);
+
+		personVOPage.map(personEntity -> personEntity
+				.add(linkTo(methodOn(PersonController.class).findById(personEntity.getKey())).withSelfRel()));
+
+		Link link = linkTo(
+				methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc"))
+						.withSelfRel();
+
+		return assembler.toModel(personVOPage, link);
+	}
+
+	public PagedModel<EntityModel<PersonVO>> findPersonsByName(String firstName, Pageable pageable) {
+
+		var personPage = personRepository.findPersonsByName(firstName, pageable);
+		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVO.class));
+
+		personVOPage.map(personEntity -> personEntity
+				.add(linkTo(methodOn(PersonController.class).findById(personEntity.getKey())).withSelfRel()));
+
+		Link link = linkTo(
+				methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc"))
+						.withSelfRel();
+
+		return assembler.toModel(personVOPage, link);
 	}
 
 	public PersonVO findById(Long id) {
