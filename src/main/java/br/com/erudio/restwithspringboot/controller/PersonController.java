@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,7 @@ public class PersonController {
 	@Autowired
 	private PersonService service;
 
-	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml" })
 	@Operation(summary = "Finds all People", description = "Finds all People", tags = { "People" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = {
 					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonVO.class))) }),

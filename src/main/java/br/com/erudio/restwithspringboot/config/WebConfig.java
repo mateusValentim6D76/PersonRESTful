@@ -32,6 +32,9 @@ public class WebConfig implements WebMvcConfigurer {
 		.allowedOrigins(allowedOrigins)
 	.allowCredentials(true);
 	}
+	
+	//Via Query Param
+	
 //	@Override
 //	public void configureContentNegotiation(ContentNegotiationConfigurer config) {
 //		config.favorParameter(false)
@@ -41,11 +44,11 @@ public class WebConfig implements WebMvcConfigurer {
 //		.mediaType("xml", MediaType.APPLICATION_XML);		
 //	}
 
-	@SuppressWarnings("deprecation")
+	//Via Header Param
+	
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer config) {
-		config.favorPathExtension(false)
-		.favorParameter(false)
+		config.favorParameter(false)
 		.ignoreAcceptHeader(false)
 		.useRegisteredExtensionsOnly(false)
 		.defaultContentType(MediaType.APPLICATION_JSON)
