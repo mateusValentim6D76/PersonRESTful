@@ -3,7 +3,7 @@ server:
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,https://erudio.com.br
 file:
-  upload-dir: C:/desenvolvimento/uploadDir
+  upload-dir: /desenvolvimento/uploadDir
 security:
   jwt:
     token:
@@ -25,6 +25,7 @@ spring:
   servlet:
     multipart:
       enabled: true
+      file-size-threshold: 2KB
       max-file-size: 128KB
       max-request-size: 128KB
   flyway:
