@@ -1,4 +1,4 @@
-﻿CREATE TABLE books (
+﻿CREATE TABLE IF NOT EXISTS books (
   id SERIAL PRIMARY KEY,
   author text,
   launch_date timestamp(6) NOT NULL,

@@ -4,6 +4,6 @@
   fk_user_id_permission SERIAL NOT NULL,
   fk_user_permission_permission SERIAL NOT NULL,
   PRIMARY KEY (id_user, id_permission),
-  FOREIGN KEY (fk_user_id_permission) REFERENCES users(id),
+  FOREIGN KEY (fk_user_id_user) REFERENCES users(id),
   FOREIGN KEY (fk_user_permission_permission) REFERENCES permission(id)
 )
