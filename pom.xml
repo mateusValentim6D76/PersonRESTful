@@ -20,6 +20,7 @@
 		<dozer.version>6.4.0</dozer.version>
 		<springdoc.version>1.6.4</springdoc.version>
 		<java-jwt.version>3.18.3</java-jwt.version>
+		<postgresql.version>42.5.1</postgresql.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEnconding>UTF-8</project.reporting.outputEnconding>
 	</properties>
@@ -86,11 +87,10 @@
 			<optional>true</optional>
 		</dependency>
 
-
-		<!-- MySQL Driver -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 		</dependency>
 
 

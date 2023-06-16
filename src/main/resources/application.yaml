@@ -11,16 +11,16 @@ security:
       expire-length: 3600000
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spring_restful?useTimezone=true&serverTimezone=UTC
-    username: root
-    password: root   
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db-postgres:5432/spring_restful?useTimezone=true&serverTimezone=UTC
+    username: docker
+    password: admin123
   jpa:
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
   servlet:
     multipart:
@@ -29,10 +29,10 @@ spring:
       max-file-size: 128KB
       max-request-size: 128KB
   flyway:
-    url: jdbc:mysql://localhost:3306/
+    url: jdbc:postgresql://db-postgres:5432/
     schemas: spring_restful
-    user: root
-    password: root
+    user: docker
+    password: admin123
 springdoc:
   pathsToMatch:
     - /auth/**
