@@ -3,6 +3,7 @@ package br.com.erudio.restwithspringboot.service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -26,10 +27,8 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
-
 	@Autowired
 	private PagedResourcesAssembler<PersonVO> assembler;
-
 	@Autowired
 	private PersonConverter converter;
 
@@ -101,6 +100,15 @@ public class PersonService {
 
 		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+		return vo;
+	}
+	@Transactional
+	public PersonVO disablePerson(Long id) {
+		personRepository.disablePerson(id);
+		var entity = personRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID " + id));
+		var vo = DozerConverter.parseObject(entity, PersonVO.class);
+		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 		return vo;
 	}
 

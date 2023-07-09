@@ -9,15 +9,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.erudio.restwithspringboot.service.PersonService;
 import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
@@ -30,14 +22,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("api/person/v1")
-@Tag(name = "People", description = "Endpoint for Managing People")
+@Tag(name = "Person", description = "Endpoint for Managing Person")
 public class PersonController {
 
 	@Autowired
 	private PersonService service;
 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml" })
-	@Operation(summary = "Finds all People", description = "Finds all People", tags = { "People" }, responses = {
+	@Operation(summary = "Finds all Person", description = "Finds all Person", tags = { "Person" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = {
 					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonVO.class))) }),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -58,8 +50,8 @@ public class PersonController {
 
 	@GetMapping(value = "/findPersonByName/{firstName}", produces = { "application/json", "application/xml",
 			"application/x-yaml" })
-	@Operation(summary = "Finds people by Name", description = "Finds people by Name", tags = {
-			"People" }, responses = { @ApiResponse(description = "Success", responseCode = "200", content = {
+	@Operation(summary = "Finds Person by Name", description = "Finds Person by Name", tags = {
+			"Person" }, responses = { @ApiResponse(description = "Success", responseCode = "200", content = {
 					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonVO.class))) }),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
@@ -79,8 +71,8 @@ public class PersonController {
 	}
 
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
-	// @CrossOrigin(origins = "http://localhost:8080")
-	@Operation(summary = "Finds a People", description = "Finds a People", tags = { "People" }, responses = {
+	 @CrossOrigin(origins = "http://localhost:8090")
+	@Operation(summary = "Finds a People", description = "Finds a Person", tags = { "Person" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -93,8 +85,7 @@ public class PersonController {
 
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
-	// @CrossOrigin(origins = {"http://localhost:8080",
-	// "https://mvalentimlearning.com.br"})
+	 @CrossOrigin(origins = {"http://localhost:8090"})
 	@Operation(summary = "Adds a new Person", description = "Adds a new Person by passing in a JSON, XML or YML representation of the person !", tags = {
 			"People" }, responses = {
 					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
@@ -115,6 +106,19 @@ public class PersonController {
 					@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content) })
 	public PersonVO update(PersonVO person) {
 		return service.update(person);
+	}
+
+	@PatchMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
+	// @CrossOrigin(origins = "http://localhost:8080")
+	@Operation(summary = "Finds a People", description = "Disable a specific Person by your ID", tags = { "Person" }, responses = {
+			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
+			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+			@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content) })
+	public PersonVO disablePerson(@PathVariable("id") Long id) {
+		return service.disablePerson(id);
 	}
 
 	@DeleteMapping("/{id}")
