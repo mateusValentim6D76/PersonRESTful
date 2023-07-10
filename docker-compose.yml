@@ -25,7 +25,7 @@ services:
     working_dir: /PersonRESTful
     environment:
       TZ: America/Sao_Paulo
-      SPRING.DATASOURCE.URL: jdbc:mysql://db:3309/restful_erudio?useTimezone=true&serverTimezone=UTC
+      SPRING.DATASOURCE.URL: jdbc:mysql://0.0.0.0:3309/restful_erudio?useTimezone=true&serverTimezone=UTC
       SPRING.DATASOURCE.USERNAME: docker
       SPRING.DATASOURCE.PASSWORD: admin123
     ports:

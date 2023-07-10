@@ -23,7 +23,7 @@ import br.com.erudio.restwithspringboot.exception.RequiredObjectIsNullException;
 import br.com.erudio.restwithspringboot.mocks.MockPerson;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
 import br.com.erudio.restwithspringboot.service.PersonService;
-import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v1.PersonVOV1;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -107,7 +107,7 @@ class PersonServiceTest {
 		Person persisted = entity;
 		persisted.setId(1L);
 
-		PersonVO vo = input.mockVO(1);
+		PersonVOV1 vo = input.mockVO(1);
 
 		when(repository.save(persisted)).thenReturn(persisted);
 		var result = service.create(vo);
@@ -141,7 +141,7 @@ class PersonServiceTest {
 		Person persisted = entity;
 		persisted.setId(1L);
 
-		PersonVO vo = input.mockVO(1);
+		PersonVOV1 vo = input.mockVO(1);
 		vo.setKey(1L);
 
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));

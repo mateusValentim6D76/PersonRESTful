@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.erudio.restwithspringboot.service.PersonService;
-import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v1.PersonVOV1;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,12 +31,12 @@ public class PersonController {
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml" })
 	@Operation(summary = "Finds all Person", description = "Finds all Person", tags = { "Person" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonVO.class))) }),
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonVOV1.class))) }),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
 			@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content), })
-	public ResponseEntity<PagedModel<EntityModel<PersonVO>>> findAll(
+	public ResponseEntity<PagedModel<EntityModel<PersonVOV1>>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "limit", defaultValue = "12") Integer limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
@@ -52,12 +52,12 @@ public class PersonController {
 			"application/x-yaml" })
 	@Operation(summary = "Finds Person by Name", description = "Finds Person by Name", tags = {
 			"Person" }, responses = { @ApiResponse(description = "Success", responseCode = "200", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonVO.class))) }),
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonVOV1.class))) }),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 					@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
 					@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content), })
-	public ResponseEntity<PagedModel<EntityModel<PersonVO>>> findPersonsByName(
+	public ResponseEntity<PagedModel<EntityModel<PersonVOV1>>> findPersonsByName(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "limit", defaultValue = "12") Integer limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction,
@@ -73,13 +73,13 @@ public class PersonController {
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	 @CrossOrigin(origins = "http://localhost:8090")
 	@Operation(summary = "Finds a People", description = "Finds a Person", tags = { "Person" }, responses = {
-			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
+			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVOV1.class))),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
 			@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content) })
-	public PersonVO findById(@PathVariable("id") Long id) {
+	public PersonVOV1 findById(@PathVariable("id") Long id) {
 		return service.findById(id);
 	}
 
@@ -88,11 +88,11 @@ public class PersonController {
 	 @CrossOrigin(origins = {"http://localhost:8090"})
 	@Operation(summary = "Adds a new Person", description = "Adds a new Person by passing in a JSON, XML or YML representation of the person !", tags = {
 			"People" }, responses = {
-					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
+					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVOV1.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 					@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content) })
-	public PersonVO create(@RequestBody PersonVO person) {
+	public PersonVOV1 create(@RequestBody PersonVOV1 person) {
 		return service.create(person);
 	}
 
@@ -100,24 +100,24 @@ public class PersonController {
 			"application/json", "application/xml", "application/x-yaml" })
 	@Operation(summary = "Updates a Person", description = "Updates a Person by passing in a JSON, XML or YML representation of the person !", tags = {
 			"People" }, responses = {
-					@ApiResponse(description = "Updated", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
+					@ApiResponse(description = "Updated", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVOV1.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 					@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content) })
-	public PersonVO update(PersonVO person) {
+	public PersonVOV1 update(PersonVOV1 person) {
 		return service.update(person);
 	}
 
 	@PatchMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	// @CrossOrigin(origins = "http://localhost:8080")
 	@Operation(summary = "Finds a People", description = "Disable a specific Person by your ID", tags = { "Person" }, responses = {
-			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
+			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVOV1.class))),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
 			@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content) })
-	public PersonVO disablePerson(@PathVariable("id") Long id) {
+	public PersonVOV1 disablePerson(@PathVariable("id") Long id) {
 		return service.disablePerson(id);
 	}
 

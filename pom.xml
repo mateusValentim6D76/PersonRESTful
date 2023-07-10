@@ -121,7 +121,7 @@
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>9.8.1</version>
 				<configuration>
-					<url>jdbc:mysql://localhost:3309/restful_erudio?useTimezone=true&amp;serverTimezone=UTC&amp;useSSL=false</url>
+					<url>jdbc:mysql://0.0.0.0:3309/restful_erudio?useTimezone=true&amp;serverTimezone=UTC&amp;useSSL=false</url>
 					<user>docker</user>
 					<password>admin123</password>
 				</configuration>

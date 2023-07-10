@@ -19,7 +19,7 @@ import br.com.erudio.restwithspringboot.data.model.Person;
 import br.com.erudio.restwithspringboot.exception.RequiredObjectIsNullException;
 import br.com.erudio.restwithspringboot.exception.ResourceNotFoundException;
 import br.com.erudio.restwithspringboot.repository.PersonRepository;
-import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v1.PersonVOV1;
 import br.com.erudio.restwithspringboot.vo.v2.PersonVOV2;
 
 @Service
@@ -28,15 +28,15 @@ public class PersonService {
 	@Autowired
 	private PersonRepository personRepository;
 	@Autowired
-	private PagedResourcesAssembler<PersonVO> assembler;
+	private PagedResourcesAssembler<PersonVOV1> assembler;
 	@Autowired
 	private PersonConverter converter;
 
-	public PersonVO create(PersonVO person) {
+	public PersonVOV1 create(PersonVOV1 person) {
 		if (person == null)
 			throw new RequiredObjectIsNullException();
 		var entity = DozerConverter.parseObject(person, Person.class);
-		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class);
+		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVOV1.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 		return vo;
 
@@ -48,10 +48,10 @@ public class PersonService {
 		return vo;
 	}
 
-	public PagedModel<EntityModel<PersonVO>> findAll(Pageable pageable) {
+	public PagedModel<EntityModel<PersonVOV1>> findAll(Pageable pageable) {
 
 		var personPage = personRepository.findAll(pageable);
-		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVO.class));
+		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVOV1.class));
 
 		personVOPage.map(personEntity -> personEntity
 				.add(linkTo(methodOn(PersonController.class).findById(personEntity.getKey())).withSelfRel()));
@@ -63,10 +63,10 @@ public class PersonService {
 		return assembler.toModel(personVOPage, link);
 	}
 
-	public PagedModel<EntityModel<PersonVO>> findPersonsByName(String firstName, Pageable pageable) {
+	public PagedModel<EntityModel<PersonVOV1>> findPersonsByName(String firstName, Pageable pageable) {
 
 		var personPage = personRepository.findPersonsByName(firstName, pageable);
-		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVO.class));
+		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVOV1.class));
 
 		personVOPage.map(personEntity -> personEntity
 				.add(linkTo(methodOn(PersonController.class).findById(personEntity.getKey())).withSelfRel()));
@@ -78,15 +78,15 @@ public class PersonService {
 		return assembler.toModel(personVOPage, link);
 	}
 
-	public PersonVO findById(Long id) {
+	public PersonVOV1 findById(Long id) {
 		var entity = personRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID " + id));
-		var vo = DozerConverter.parseObject(entity, PersonVO.class);
+		var vo = DozerConverter.parseObject(entity, PersonVOV1.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 		return vo;
 	}
 
-	public PersonVO update(PersonVO person) {
+	public PersonVOV1 update(PersonVOV1 person) {
 		if (person == null)
 			throw new RequiredObjectIsNullException();
 
@@ -98,16 +98,16 @@ public class PersonService {
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
 
-		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVO.class);
+		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonVOV1.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 		return vo;
 	}
 	@Transactional
-	public PersonVO disablePerson(Long id) {
+	public PersonVOV1 disablePerson(Long id) {
 		personRepository.disablePerson(id);
 		var entity = personRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID " + id));
-		var vo = DozerConverter.parseObject(entity, PersonVO.class);
+		var vo = DozerConverter.parseObject(entity, PersonVOV1.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 		return vo;
 	}

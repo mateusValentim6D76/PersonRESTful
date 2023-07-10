@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8080
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,https://erudio.com.br
 file:
@@ -12,12 +12,12 @@ security:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://db:3309/restful_erudio?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://0.0.0.0:3309/restful_erudio?useTimezone=true&serverTimezone=UTC
     username: docker
     password: admin123
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -29,7 +29,7 @@ spring:
       max-file-size: 128KB
       max-request-size: 128KB
   flyway:
-    url: jdbc:mysql://db:3309/
+    url: jdbc:mysql://0.0.0.0:3309/
     schemas: restful_erudio
     user: docker
     password: admin123

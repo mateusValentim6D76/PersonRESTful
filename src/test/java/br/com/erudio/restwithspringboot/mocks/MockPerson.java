@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.erudio.restwithspringboot.data.model.Person;
-import br.com.erudio.restwithspringboot.vo.v1.PersonVO;
+import br.com.erudio.restwithspringboot.vo.v1.PersonVOV1;
 
 public class MockPerson {
 
@@ -42,8 +42,8 @@ public class MockPerson {
 		return person;
 	}
 
-	public PersonVO mockVO(Integer number) {
-		PersonVO person = new PersonVO();
+	public PersonVOV1 mockVO(Integer number) {
+		PersonVOV1 person = new PersonVOV1();
 		person.setAddress("Addres Test" + number);
 		person.setFirstName("First Name Test" + number);
 		person.setGender(((number % 2) == 0) ? "Male" : "Female");
