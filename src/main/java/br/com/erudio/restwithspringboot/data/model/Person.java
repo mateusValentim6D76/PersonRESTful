@@ -1,8 +1,10 @@
 package br.com.erudio.restwithspringboot.data.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +23,6 @@ public class Person implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name = "first_name", nullable = false, length = 80)
-	@JsonProperty("")
 	private String firstName;
 	@Column(name = "last_name", nullable = false, length = 80)
 	private String lastName;
@@ -33,6 +34,9 @@ public class Person implements Serializable{
 	@Column(nullable = false)
 	private Boolean enable;
 
+	@Column(name = "registration_date")
+	@JsonFormat(pattern = "yyyy/MM/dd")
+	private Date registrationDate;
 	public Person() {
 
 	}
@@ -85,16 +89,24 @@ public class Person implements Serializable{
 		this.enable = enable;
 	}
 
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof Person)) return false;
 		Person person = (Person) o;
-		return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(enable, person.enable);
+		return Objects.equals(getId(), person.getId()) && Objects.equals(getFirstName(), person.getFirstName()) && Objects.equals(getLastName(), person.getLastName()) && Objects.equals(getAddress(), person.getAddress()) && Objects.equals(getGender(), person.getGender()) && Objects.equals(getEnable(), person.getEnable()) && Objects.equals(registrationDate, person.registrationDate);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, address, gender, enable);
+		return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender(), getEnable(), registrationDate);
 	}
 }

@@ -20,6 +20,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/person/v1")
 @Tag(name = "Person", description = "Endpoint for Managing Person")
@@ -36,7 +38,7 @@ public class PersonController {
 			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
 			@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content), })
-	public ResponseEntity<PagedModel<EntityModel<PersonVOV1>>> findAll(
+	public List<PersonVOV1> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "limit", defaultValue = "12") Integer limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
@@ -44,7 +46,7 @@ public class PersonController {
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "firstName"));
-		return ResponseEntity.ok(service.findAll(pageable));
+		return service.findAll();
 
 	}
 
@@ -110,7 +112,7 @@ public class PersonController {
 
 	@PatchMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	// @CrossOrigin(origins = "http://localhost:8080")
-	@Operation(summary = "Finds a People", description = "Disable a specific Person by your ID", tags = { "Person" }, responses = {
+	@Operation(summary = "Disable a specific Person by your ID", description = "Disable a specific Person by your ID", tags = { "Person" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVOV1.class))),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

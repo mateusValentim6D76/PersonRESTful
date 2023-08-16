@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
@@ -22,6 +23,10 @@ import br.com.erudio.restwithspringboot.repository.PersonRepository;
 import br.com.erudio.restwithspringboot.vo.v1.PersonVOV1;
 import br.com.erudio.restwithspringboot.vo.v2.PersonVOV2;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.logging.Logger;
+
 @Service
 public class PersonService {
 
@@ -31,6 +36,9 @@ public class PersonService {
 	private PagedResourcesAssembler<PersonVOV1> assembler;
 	@Autowired
 	private PersonConverter converter;
+
+	private Logger logger = Logger.getLogger(PersonService.class.getName());
+
 
 	public PersonVOV1 create(PersonVOV1 person) {
 		if (person == null)
@@ -48,19 +56,15 @@ public class PersonService {
 		return vo;
 	}
 
-	public PagedModel<EntityModel<PersonVOV1>> findAll(Pageable pageable) {
+	public List<PersonVOV1> findAll() {
 
-		var personPage = personRepository.findAll(pageable);
-		var personVOPage = personPage.map(personEntity -> DozerConverter.parseObject(personEntity, PersonVOV1.class));
+		logger.info("Finding all people!");
 
-		personVOPage.map(personEntity -> personEntity
-				.add(linkTo(methodOn(PersonController.class).findById(personEntity.getKey())).withSelfRel()));
-
-		Link link = linkTo(
-				methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc"))
-						.withSelfRel();
-
-		return assembler.toModel(personVOPage, link);
+		var persons = DozerConverter.parseListObject(personRepository.findAll(), PersonVOV1.class);
+		persons
+				.stream()
+				.forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
+		return persons;
 	}
 
 	public PagedModel<EntityModel<PersonVOV1>> findPersonsByName(String firstName, Pageable pageable) {
@@ -73,7 +77,7 @@ public class PersonService {
 
 		Link link = linkTo(
 				methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc"))
-						.withSelfRel();
+				.withSelfRel();
 
 		return assembler.toModel(personVOPage, link);
 	}
@@ -102,11 +106,15 @@ public class PersonService {
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 		return vo;
 	}
+
 	@Transactional
 	public PersonVOV1 disablePerson(Long id) {
+		logger.info("Disabling one person!");
+
 		personRepository.disablePerson(id);
+
 		var entity = personRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID " + id));
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 		var vo = DozerConverter.parseObject(entity, PersonVOV1.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 		return vo;

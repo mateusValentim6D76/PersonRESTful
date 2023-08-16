@@ -3,7 +3,7 @@ server:
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,https://erudio.com.br
 file:
-  upload-dir: C:/Desenvolvimento/Projetos_Backend/PersonRESTful/uploadDir
+  upload-dir: C:\Desenvolvimento\Projetos_Backend\PersonRESTful\uploadDir
 security:
   jwt:
     token:
@@ -26,8 +26,8 @@ spring:
     multipart:
       enabled: true
       file-size-threshold: 2KB
-      max-file-size: 128KB
-      max-request-size: 128KB
+      max-file-size: 750KB
+      max-request-size: 750KB
   flyway:
     url: jdbc:mysql://0.0.0.0:3309/
     schemas: restful_erudio
