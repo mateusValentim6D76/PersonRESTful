@@ -1,9 +1,9 @@
 server:
-  port: 8090 
+  port: 8888
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,https://erudio.com.br
 file:
-  upload-dir: /desenvolvimento/uploadDir
+  upload-dir: C:\Desenvolvimento\Projetos_Backend\PersonRESTful\uploadDir
 security:
   jwt:
     token:
@@ -12,27 +12,28 @@ security:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spring_restful?useTimezone=true&serverTimezone=UTC
-    username: root
-    password: root   
+    url: jdbc:mysql://0.0.0.0:3309/restful_erudio?useTimezone=true&serverTimezone=UTC
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-    show-sql: false
+    show-sql: true
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 2KB
-      max-file-size: 200MB
-      max-request-size: 215MB   
+      max-file-size: 750KB
+      max-request-size: 750KB
   flyway:
-    url: jdbc:mysql://localhost:3306/
-    schemas: spring_restful
-    user: root
-    password: root
+    url: jdbc:mysql://0.0.0.0:3309/
+    schemas: restful_erudio
+    user: docker
+    password: admin123
+    location:
+      classpath: db/migration
+    enabled: true
 springdoc:
   pathsToMatch:
     - /auth/**
