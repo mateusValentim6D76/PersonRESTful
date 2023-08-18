@@ -11,4 +11,7 @@ public class TestConfig {
     public static final String CONTENT_TYPE_YML = "application/x-yaml";
 
     public static final String ORIGIN_ERUDIO_VALENTIM = "https://erudio.com.br";
+
+    public static final String ORIGIN_ERUDIO_VALENTIM_WRONG = "https://valentim.com.br";
+
 }
