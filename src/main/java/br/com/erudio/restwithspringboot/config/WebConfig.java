@@ -45,7 +45,6 @@ public class WebConfig implements WebMvcConfigurer {
 //	}
 
 	//Via Header Param
-	
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer config) {
 		config.favorParameter(false)
